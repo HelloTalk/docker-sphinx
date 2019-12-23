@@ -12,25 +12,24 @@ RUN cd /tmp \
         && cd glibc-2.27 \
         && mkdir build && cd build \
         && ../configure --prefix=/usr \
-        && make -j48 && make install 
+        && make -j48 && make install \
+	&& cd /tmp/ && rm -rf *
 RUN cd /tmp \
 	&& wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz \
 	&& tar -xf sphinx-2.2.11-release.tar.gz \
 	&& cd sphinx-2.2.11-release \
 	&& ./configure --prefix=/usr/local/sphinx \
-	&& make -j48 && make install
+	&& make -j48 && make install \
+	&& cd /tmp/ && rm -rf *
 
 FROM centos:7 as prod
 ENV PATH "/usr/local/sphinx/bin:${PATH}"
 RUN yum install -y mysql-devel \
         && yum clean all \
         && rm -rf /var/cache/yum 
-#RUN yum --nogpgcheck localinstall http://sphinxsearch.com/files/sphinx-2.2.11-1.rhel7.x86_64.rpm -y \
-#        && yum clean all \
-#        && rm -rf /var/cache/yum 
+
 COPY --from=builder /usr /usr
 
-# expose TCP port
 EXPOSE 9306 9312
 
 CMD ["searchd", "--nodetach", "--config", "/usr/local/sphinx/etc/sphinx.conf;"]
