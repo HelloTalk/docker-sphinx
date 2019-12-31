@@ -32,4 +32,4 @@ COPY --from=builder /usr /usr
 
 EXPOSE 9306 9312
 
-CMD ["searchd", "--nodetach", "--config", "/usr/local/sphinx/etc/sphinx.conf;"]
+CMD ["searchd", "--nodetach", "--config", "/usr/local/sphinx/etc/sphinx.conf"]
