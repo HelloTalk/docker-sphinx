@@ -5,9 +5,9 @@ services:
     image: hellotalk/sphinxsearch:latest
     container_name: "sphinx-index"
     volumes:
-      - "/home/archon/sphinx-docker/sphinx.conf:/usr/local/sphinx/etc/sphinx.conf"
-      - "/home/archon/sphinx-docker/data:/usr/local/sphinx/var/data"
-      - "/home/archon/sphinx-docker/log:/usr/local/sphinx/var/log"
+      - "/path/to/sphinx-docker/sphinx.conf:/usr/local/sphinx/etc/sphinx.conf"
+      - "/path/to/sphinx-docker/data:/usr/local/sphinx/var/data"
+      - "/path/to/sphinx-docker/log:/usr/local/sphinx/var/log"
     command: ["/usr/local/sphinx/bin/indexer", "--rotate", "--all"]
 
   sphinx-searchd:
@@ -18,9 +18,9 @@ services:
       - "8306:9306"
       - "8312:9312"
     volumes:
-      - "/home/archon/sphinx-docker/sphinx.conf:/usr/local/sphinx/etc/sphinx.conf"
-      - "/home/archon/sphinx-docker/data:/usr/local/sphinx/var/data"
-      - "/home/archon/sphinx-docker/log:/usr/local/sphinx/var/log"
+      - "/path/to/sphinx-docker/sphinx.conf:/usr/local/sphinx/etc/sphinx.conf"
+      - "/path/to/sphinx-docker/data:/usr/local/sphinx/var/data"
+      - "/path/to/sphinx-docker/log:/usr/local/sphinx/var/log"
     container_name: "sphinx-searchd"
     restart: on-failure
     command: ["searchd", "--nodetach", "--config", "/usr/local/sphinx/etc/sphinx.conf"]
