@@ -1,15 +1,18 @@
 # docker-sphinx
 sphinx 2.2.11 with glibc 2.27 docker image
 
-## run docker
+## prepare
 ```bash
-docker run --name sphinxsearch -d -p 9306:9306 -p 9312:9312 \
--v /usr/local/sphinx/docker/sphinx.conf:/usr/local/sphinx/etc/sphinx.conf \
--v /usr/local/sphinx/docker/data:/usr/local/sphinx/var/data \
--v /usr/local/sphinx/docker/log:/usr/local/sphinx/var/log hellotalk/sphinxsearch:latest
+git clone https://github.com/HelloTalk/docker-sphinx.git
 ```
 
-## index
+## container orchestration
 ```bash
-/usr/local/sphinx/bin/indexer --rotate location
+cd docker-sphinx
+docker-compose up -d
+```
+
+## index periodicity
+```bash
+0 6 * * SUN /usr/bin/bash /path/to/sphinx-docker/index.sh
 ```

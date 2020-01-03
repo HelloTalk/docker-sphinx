@@ -24,14 +24,12 @@ RUN cd /tmp \
 
 FROM centos:7 as prod
 ENV PATH "/usr/local/sphinx/bin:${PATH}"
-COPY --from=builder /usr /usr
-RUN	   yum install -y mysql-devel supervisor \
+RUN	   yum install -y mysql-devel psmisc \
         && yum clean all \
         && rm -rf /var/cache/yum 
 
-COPY supervisord.conf /etc/supervisord.conf
+COPY --from=builder /usr /usr
 
 EXPOSE 9306 9312
 
-#CMD ["searchd", "--nodetach", "--config", "/usr/local/sphinx/etc/sphinx.conf"]
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["searchd", "--nodetach", "--config", "/usr/local/sphinx/etc/sphinx.conf"]
